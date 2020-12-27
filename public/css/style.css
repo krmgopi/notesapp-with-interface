@@ -1,0 +1,102 @@
+.collapsible-header {
+  position: relative;
+  pointer-events: none;
+}
+
+.collapsible-secondary {
+  position: absolute;
+  right: 0;
+}
+
+.note-title {
+  margin-left: 30px;
+}
+
+.cc {
+  position: relative;
+  /* left: 20px; */
+  cursor: pointer;
+  color: #40c4ff;
+  pointer-events: visible;
+}
+
+.del {
+  cursor: pointer;
+  pointer-events: visible;
+  color: #40c4ff;
+}
+
+.mt {
+  margin-top: 10px;
+}
+
+.g {
+  margin-left: 200px;
+}
+
+.title {
+  font-family: "Jura", sans-serif;
+  font-weight: 500;
+}
+#error {
+  margin-top: 100px;
+  line-height: 30px;
+}
+
+#about {
+  font-family: "Roboto", sans-serif;
+}
+
+#about p {
+  line-height: 40px;
+  font-size: 1.2rem;
+  text-align: justify;
+  padding-bottom: 10px;
+}
+
+footer {
+  margin-top: 600px;
+  font-family: "Roboto", sans-serif;
+}
+
+.collapsible-header > .caret {
+  transition: transform 0.2s ease;
+}
+
+.active > .collapsible-header > .caret {
+  transform: rotate(180deg);
+}
+
+#toast {
+  position: fixed;
+  bottom: 40px;
+  left: -80px;
+  transform: translate(-50%);
+  background-color: #000000;
+  color: #fff;
+  padding: 16px;
+  border-radius: 4px;
+  text-align: center;
+  z-index: 1;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  visibility: hidden;
+  opacity: 0;
+}
+
+#toast.show {
+  visibility: visible;
+  animation: fadeInOut 3s;
+}
+
+@keyframes fadeInOut {
+  5%,
+  95% {
+    opacity: 1;
+    left: 140px;
+  }
+  15%,
+  85% {
+    opacity: 1;
+    left: 120px;
+  }
+}
