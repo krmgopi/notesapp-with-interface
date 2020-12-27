@@ -31,24 +31,24 @@ function addNote(e) {
     noteBody.focus();
     return false;
   } else {
-    fetch(
-      `http://localhost:3000/addnote?title=${noteTitle.value}&body=${noteBody.value}`
-    ).then((res) => {
-      console.log(res);
-      res.json().then((data) => {
-        if (data.error) {
-          console.log("error is" + data.error);
-          alert(data.error);
-          return false;
-        } else {
-          console.log(data);
-          ul.innerHTML = "";
-          data.forEach(function (data) {
-            createList(data);
-          });
-        }
-      });
-    });
+    fetch(`/addnote?title=${noteTitle.value}&body=${noteBody.value}`).then(
+      (res) => {
+        console.log(res);
+        res.json().then((data) => {
+          if (data.error) {
+            console.log("error is" + data.error);
+            alert(data.error);
+            return false;
+          } else {
+            console.log(data);
+            ul.innerHTML = "";
+            data.forEach(function (data) {
+              createList(data);
+            });
+          }
+        });
+      }
+    );
     noteTitle.value = "";
     noteBody.value = "";
   }
@@ -97,24 +97,22 @@ function deleteList(e) {
     console.log("yes it is del");
     removeTitle = e.target.nextElementSibling.nextElementSibling.textContent;
     console.log(removeTitle);
-    fetch(`http://localhost:3000/removenote?title=${removeTitle}`).then(
-      (res) => {
-        console.log(res);
-        res.json().then((data) => {
-          console.log(data);
-          if (data.length === 0) {
-            console.log("it is empty");
-            ul.innerHTML = `
+    fetch(`/removenote?title=${removeTitle}`).then((res) => {
+      console.log(res);
+      res.json().then((data) => {
+        console.log(data);
+        if (data.length === 0) {
+          console.log("it is empty");
+          ul.innerHTML = `
             <li>
                 <div class="collapsible-header">
                      <span class="center">Add note to show here !</span>
                  </div>
             </li>
             `;
-          }
-        });
-      }
-    );
+        }
+      });
+    });
     showToast("Deleted successfully");
     e.target.parentElement.parentElement.remove();
   }

@@ -1,7 +1,7 @@
 // load express
 const express = require("express");
 const app = express();
-
+const port = process.env.PORT || 3000;
 console.log("*******************************************************");
 // load notes js
 const notes = require("./notes");
@@ -107,6 +107,6 @@ app.get("*", (req, res) => {
 });
 
 // start the server
-app.listen(3000, () => {
-  console.log("server started in port 3000");
+app.listen(port, () => {
+  console.log("server started in port" + port);
 });
