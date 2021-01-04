@@ -35,15 +35,7 @@ app.get("", (req, res) => {
     createdBy: "Gopinath",
     allNotes: notes.loadNotes(),
   });
-  console.log(allNotes);
 });
-
-// app.get("json", (req, res) => {
-//   allNotes = notes.loadNotes();
-//   console.log(JSON.stringify(allNotes));
-//   console.log(allNotes);
-//   return res.send(JSON.stringify(allNotes));
-// });
 
 app.get("/about", (req, res) => {
   res.render("about", {
@@ -73,6 +65,7 @@ app.get("/addnote", (req, res) => {
         allNotes = notes.loadNotes();
         console.log(JSON.stringify(allNotes));
         return res.send(JSON.stringify(allNotes));
+        // res.redirect("/");
       }
     });
   }

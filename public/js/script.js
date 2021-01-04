@@ -1,5 +1,6 @@
 // INIT MATERIALIZE JS METHODS
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("loaded");
   var elems = document.querySelector(".collapsible");
   var instances = M.Collapsible.init(elems, {
     accordion: true,
@@ -8,12 +9,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var sidenav = document.querySelectorAll(".sidenav");
   var sidenavInst = M.Sidenav.init(sidenav, {});
+
+  const countNoteTitle = document.querySelector("#noteTitle");
+  const countnote = new M.CharacterCounter(countNoteTitle);
+
+  const countNoteBody = document.querySelector("#noteBody");
+  const countbody = new M.CharacterCounter(countNoteBody);
 });
 
 // get the inputs
 const noteTitle = document.getElementById("noteTitle");
 const noteBody = document.getElementById("noteBody");
 const addBtn = document.getElementById("add");
+
 // ul
 let ul = document.getElementById("noteslist");
 // event listeners
@@ -50,6 +58,8 @@ function addNote(e) {
       }
     );
     noteTitle.value = "";
+    // $("#noteBody").val("New Text");
+    $("#noteBody").trigger("autoresize");
     noteBody.value = "";
   }
 }
@@ -81,7 +91,7 @@ function createList(data) {
   headerDiv.appendChild(notetitle);
   let bodyDiv = document.createElement("div");
   bodyDiv.classList.add("collapsible-body");
-  let notebody = document.createElement("p");
+  let notebody = document.createElement("span");
   let notebodytextnode = document.createTextNode(`${data.body}`);
   notebody.appendChild(notebodytextnode);
   bodyDiv.appendChild(notebody);
@@ -104,11 +114,13 @@ function deleteList(e) {
         if (data.length === 0) {
           console.log("it is empty");
           ul.innerHTML = `
+          <ul class="collapsible">
             <li>
                 <div class="collapsible-header">
-                     <span class="center">Add note to show here !</span>
-                 </div>
+                   <span class="center">Add note to show here !</span>
+               </div>
             </li>
+          </ul>
             `;
         }
       });
