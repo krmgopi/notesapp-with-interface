@@ -22,17 +22,17 @@ const noteTitle = document.getElementById("noteTitle");
 const noteBody = document.getElementById("noteBody");
 const addBtn = document.getElementById("add");
 
-["keyup", "change", "keydown", "focus", "blur"].forEach(function (e) {
-  noteTitle.addEventListener(e, checkLength);
-});
+// ["keyup", "change", "keydown", "focus", "blur"].forEach(function (e) {
+//   noteTitle.addEventListener(e, checkLength);
+// });
 
-function checkLength(e) {
-  var max = 20;
-  if (noteTitle.value.length > max) {
-    noteTitle.value = noteTitle.value.substring(0, max);
-    console.log(noteTitle.value.length);
-  }
-}
+// function checkLength(e) {
+//   var max = 20;
+//   if (noteTitle.value.length > max) {
+//     noteTitle.value = noteTitle.value.substring(0, max);
+//     console.log(noteTitle.value.length);
+//   }
+// }
 
 // ul
 let ul = document.getElementById("noteslist");
