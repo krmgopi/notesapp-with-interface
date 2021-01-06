@@ -1,6 +1,6 @@
 // INIT MATERIALIZE JS METHODS
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("loaded");
+  // console.log("loaded");
   var elems = document.querySelector(".collapsible");
   var instances = M.Collapsible.init(elems, {
     accordion: true,
@@ -10,17 +10,26 @@ document.addEventListener("DOMContentLoaded", function () {
   var sidenav = document.querySelectorAll(".sidenav");
   var sidenavInst = M.Sidenav.init(sidenav, {});
 
-  const countNoteTitle = document.querySelector("#noteTitle");
-  const countnote = new M.CharacterCounter(countNoteTitle);
+  // const countNoteTitle = document.querySelector("#noteTitle");
+  // const countnote = new M.CharacterCounter(countNoteTitle);
 
-  const countNoteBody = document.querySelector("#noteBody");
-  const countbody = new M.CharacterCounter(countNoteBody);
+  // const countNoteBody = document.querySelector("#noteBody");
+  // const countbody = new M.CharacterCounter(countNoteBody);
+
+  // var instance = M.Collapsible.getInstance(elems);
+  // instance.destroy();
 });
 
 // get the inputs
 const noteTitle = document.getElementById("noteTitle");
 const noteBody = document.getElementById("noteBody");
 const addBtn = document.getElementById("add");
+const helperNote = document.querySelector(".helper-note");
+const helperBody = document.querySelector(".helper-body");
+const titleMaxLength = 20;
+const titleWarnLength = 15;
+const bodyMaxLength = 300;
+const bodyWarnLength = 290;
 
 // ul
 let ul = document.getElementById("noteslist");
@@ -28,27 +37,73 @@ let ul = document.getElementById("noteslist");
 addBtn.addEventListener("click", addNote);
 ul.addEventListener("click", deleteList);
 
+["keyup", "change", "keydown", "focus", "blur"].forEach(function (e) {
+  noteTitle.addEventListener(e, notetitleCounter);
+});
+
+["keyup", "change", "keydown", "focus", "blur"].forEach(function (e) {
+  noteBody.addEventListener(e, notebodyCounter);
+});
+
+function notetitleCounter(e) {
+  let count = noteTitle.value.length;
+
+  if (count >= 1) {
+    helperNote.classList.remove("red-text");
+    helperNote.innerHTML = `${titleMaxLength - count} charecters left`;
+  }
+  if (count > titleMaxLength) {
+    helperNote.classList.remove("red-text");
+    noteTitle.value = noteTitle.value.substring(0, titleMaxLength);
+    count--;
+  }
+  if (count + 1 > titleWarnLength) {
+    helperNote.classList.add("red-text");
+    helperNote.innerHTML = `${titleMaxLength - count} charecters left`;
+  }
+}
+
+function notebodyCounter(e) {
+  let count = noteBody.value.length;
+
+  if (count >= 1) {
+    helperBody.classList.remove("red-text");
+    helperBody.innerHTML = `${bodyMaxLength - count} charecters left`;
+  }
+  if (count > bodyMaxLength) {
+    helperBody.classList.remove("red-text");
+    noteBody.value = noteBody.value.substring(0, bodyMaxLength);
+    count--;
+  }
+  if (count + 1 > bodyWarnLength) {
+    helperBody.classList.add("red-text");
+    helperBody.innerHTML = `${bodyMaxLength - count} charecters left`;
+  }
+}
+
 function addNote(e) {
   e.preventDefault();
   if (!noteTitle.value) {
-    alert("enter some title");
+    helperNote.classList.add("red-text");
+    helperNote.innerHTML = "please enter some title";
     noteTitle.focus();
     return false;
   } else if (!noteBody.value) {
-    alert("enter some description please");
+    helperBody.classList.add("red-text");
+    helperBody.innerHTML = "please enter description";
     noteBody.focus();
     return false;
   } else {
     fetch(`/addnote?title=${noteTitle.value}&body=${noteBody.value}`).then(
       (res) => {
-        console.log(res);
+        // console.log(res);
         res.json().then((data) => {
           if (data.error) {
-            console.log("error is" + data.error);
+            // console.log("error is" + data.error);
             alert(data.error);
             return false;
           } else {
-            console.log(data);
+            // console.log(data);
             ul.innerHTML = "";
             data.forEach(function (data) {
               createList(data);
@@ -58,8 +113,8 @@ function addNote(e) {
       }
     );
     noteTitle.value = "";
-    // $("#noteBody").val("New Text");
-    $("#noteBody").trigger("autoresize");
+    helperNote.innerHTML = "";
+    helperBody.innerHTML = "";
     noteBody.value = "";
   }
 }
@@ -97,23 +152,28 @@ function createList(data) {
   bodyDiv.appendChild(notebody);
   li.appendChild(headerDiv);
   li.appendChild(bodyDiv);
-  console.log(`title : ${data.title} body ${data.body}`);
+  // console.log(`title : ${data.title} body ${data.body}`);
   ul.appendChild(li);
 }
 
 function deleteList(e) {
+  // e.stopPropagation();
   let removeTitle;
   if (e.target.classList.contains("del")) {
-    console.log("yes it is del");
-    removeTitle = e.target.nextElementSibling.nextElementSibling.textContent;
-    console.log(removeTitle);
-    fetch(`/removenote?title=${removeTitle}`).then((res) => {
-      console.log(res);
-      res.json().then((data) => {
-        console.log(data);
-        if (data.length === 0) {
-          console.log("it is empty");
-          ul.innerHTML = `
+    let confirmation = confirm("are you sure to delete ? ");
+    // console.log("yes it is del");
+    if (!confirmation) {
+      return false;
+    } else {
+      // console.log("deleted");
+      removeTitle = e.target.nextElementSibling.nextElementSibling.textContent;
+      fetch(`/removenote?title=${removeTitle}`).then((res) => {
+        // console.log(res);
+        res.json().then((data) => {
+          // console.log(data);
+          if (data.length === 0) {
+            // console.log("it is empty");
+            ul.innerHTML = `
           <ul class="collapsible">
             <li>
                 <div class="collapsible-header">
@@ -122,11 +182,13 @@ function deleteList(e) {
             </li>
           </ul>
             `;
-        }
+          }
+        });
       });
-    });
-    showToast("Deleted successfully");
-    e.target.parentElement.parentElement.remove();
+
+      e.target.parentElement.parentElement.remove();
+      showToast("Deleted successfully");
+    }
   }
 }
 
@@ -134,7 +196,7 @@ function showToast(text) {
   var x = document.getElementById("toast");
   x.classList.add("show");
   x.innerHTML = text;
-  setTimeout(function () {
+  setTimeout(() => {
     x.classList.remove("show");
   }, 3000);
 }

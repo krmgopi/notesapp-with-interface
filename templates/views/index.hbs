@@ -26,14 +26,15 @@
             <h4 class="title center-align">Notes App using NODE JS</h4>
 
             <div class="input-field m6 offset-m3 col s12 center">
-                <input type="text" id="noteTitle" data-length="20" maxlength="20">
+                <input type="text" id="noteTitle" onpaste="return false">
                 <label for="noteTitle">Note Title</label>
+                <span class="helper-text helper-note left" data-error="wrong" data-success="right"></span>
             </div>
 
             <div class="input-field m6 offset-m3 col s12 center mt">
-                <textarea type="text" class="materialize-textarea" id="noteBody" data-length="300"
-                    maxlength="300"></textarea>
+                <textarea type="text" class="materialize-textarea" id="noteBody" onpaste="return false"></textarea>
                 <label for="noteBody">Note Body</label>
+                <span class="helper-text helper-body left" data-error="wrong" data-success="right"></span>
             </div>
 
             <div class="input-field col s12 center">

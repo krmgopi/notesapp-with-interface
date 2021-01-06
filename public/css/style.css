@@ -24,9 +24,10 @@
 }
 
 .del {
-  cursor: pointer;
   pointer-events: visible;
+  cursor: pointer;
   color: #40c4ff;
+  z-index: 1000;
 }
 
 .mt {
@@ -62,13 +63,13 @@ footer {
   font-family: "Roboto", sans-serif;
 }
 
-/* .collapsible-header > .caret {
+.collapsible-header > .caret {
   transition: transform 0.2s ease;
 }
 
 .active > .collapsible-header > .caret {
   transform: rotate(180deg);
-} */
+}
 
 #toast {
   position: fixed;
